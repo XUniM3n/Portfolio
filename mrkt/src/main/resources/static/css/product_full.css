@@ -1,0 +1,90 @@
+.add-product {
+	width: 1200px;
+	margin: 0 auto;
+	background-color: white;
+}
+.add-product-form input {
+	display: block;
+}
+.product-full {
+	margin: 5px;
+	padding: 5px;
+	min-height: 600px;
+	width: 1190px;
+	background-color: white;
+	border-color: #B7B7B7;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 5px;
+}
+.product:hover {
+	box-shadow: 0 0 5px 1px #FFFD00;
+	border-style: inset;
+}
+.product-left{
+	float: left;
+}
+.primage {
+	margin: auto;
+	height: 120px;
+	width: 120px;
+}
+.order-product{
+	margin-top: 10px;
+	margin-left: 40px; 
+}
+.product-main {
+	float: left;
+	margin: 0 10px;
+	width: 1024px;
+}
+.product-center {
+	float: left;
+	margin-left: 30px;
+	width: 650px;
+}
+.product-name {
+	font-size: 25px;
+	font-weight: bold;
+	text-overflow: ellipsis;
+}
+.product-name a {
+	color: black;
+}
+.seller-block {
+	float: right;
+	height: 60px;
+	width: 300px;
+}
+.seller-avatar {
+	float: right;
+	height: 50px;
+	margin: 3px;
+	width: 50px;
+	background-color: cadetblue;
+}
+.seller-info {
+	float: right;
+	max-height: 150px;
+	margin-top: 3px;
+	margin-right: 15px;
+}
+.seller-name {
+	max-width: 150px;
+	text-overflow: ellipsis;
+	text-align: center;
+}
+.seller-rating {
+	text-overflow: ellipsis;
+	text-align: right;
+	max-width: 150px;
+}
+.description {
+	background-color: #F7F7F7;
+	clear: both;
+	width: 1020px;
+	min-height: 60px;
+	padding: 2px 5px;
+	overflow: hidden;
+	word-wrap: break-word;
+}

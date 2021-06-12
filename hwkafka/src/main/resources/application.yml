@@ -1,0 +1,10 @@
+spring.kafka.producer:
+  bootstrap-servers: 172.31.43.75:9092
+  key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+my.suhd.kafka.topic:
+  driver-avaiable: driver-available
+  driver-event: driver-event
+  ride: ride
+  ride-current: ride-current

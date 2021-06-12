@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Orders | MRKT</title>
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
+</head>
+<body>
+<div th:include="fragments/header :: navbar"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="pricing-header px-3 py-3 mx-auto text-center">
+      <h1 class="display-5">Orders with my products</h1>
+      <p class="lead">When someone orders your products an information about the order will be shown here. If you
+        want, you can cancel order anytime. You should try to negotiate shipment details using contacts provided by
+        user. You will receive your money when buyer confirms getting product or after 60 days, if buyer has forgotten
+        to click "Received" button. In case if something went wrong write an email to admin@mrkt.com</p>
+    </div>
+  </div>
+  <th:block th:if="${ordersSell.isEmpty()}">
+    <div>
+      <div class="alert alert-danger text-center">No such orders</div>
+    </div>
+  </th:block>
+  <th:block th:unless="${ordersSell.isEmpty()}">
+    <th:block th:each="order : ${ordersSell}">
+      <div class="card flex-md-row mb-2 box-shadow h-md-250">
+        <div class="card-body d-flex flex-column align-items-start col-5">
+          <th:block th:switch="${order.getStatus().name()}">
+            <th:block th:case="OPEN">
+              <strong class="d-inline-block mb-2 text-danger">Open</strong>
+            </th:block>
+            <th:block th:case="MONEY_SENT">
+              <strong class="d-inline-block mb-2 text-warning">Buyer sent money</strong>
+            </th:block>
+            <th:block th:case="SHIPPED">
+              <strong class="d-inline-block mb-2 text-success">Product delivered, waiting for buyer
+                confirmation</strong>
+            </th:block>
+          </th:block>
+
+          <h3 class="mb-0"><a class="text-dark" th:text="${order.getProduct().getName()}"
+                              th:href="'/product/' + ${order.getProduct().getId()}">Product</a></h3>
+          <div class="mb-1 text-muted"
+               th:text="${order.getPrice().toString()} + ' BTC | ' + ${order.getProduct().getCity().getName()}">0.5 BTC |
+            Moscow
+          </div>
+          <div class="mb-1 text-muted" th:text="'Order start date: ' + ${order.getDateStart()}">Order start date: 15
+            Nov
+          </div>
+        </div>
+        <div class="card-body white-text rounded-bottom col-md-4" style="background-color: azure">
+          <!-- Social shares button -->
+          <!-- Title -->
+          <h4 class="card-title">Contacts</h4>
+          <hr class="hr-light">
+          <!-- Text -->
+          <p class="card-text white-text mb-4" th:text="${order.getBuyer().getContacts()}">Telegram: @ggleko</p>
+          <!-- Link -->
+        </div>
+        <div class="col-md-3 text-center">
+          <th:block th:switch="${order.getStatus().name()}">
+            <th:block th:case="OPEN">
+              <input type="button" class="btn my-4" disabled value="Wait until user deposit money"/>
+            </th:block>
+            <th:block th:case="MONEY_SENT">
+              <form action="/orders/ship" method="post">
+                <input type="hidden" name="id" th:value="${order.getId()}"/>
+                <input type="submit" class="btn btn-primary my-4" value="I have shipped product"/>
+              </form>
+            </th:block>
+            <th:block th:case="SHIPPED">
+              <input type="button" class="btn my-4" disabled
+                     value="Wait until user confirms product delivery or wait 60 days"/>
+            </th:block>
+          </th:block>
+          <form action="/orders/cancel" method="post">
+            <input type="hidden" name="id" th:value="${order.getId()}"/>
+            <input type="submit" class="btn btn-danger my-4" value="Cancel"/>
+          </form>
+        </div>
+      </div>
+    </th:block>
+  </th:block>
+</div>
+<!-- /.container -->
+
+<div class="container">
+  <div class="row">
+    <div class="pricing-header px-3 py-3 mx-auto text-center">
+      <h1 class="display-5">My orders</h1>
+      <p class="lead">Here you see products, that you have ordered. You have to negotiate shipment details with seller,
+        who may contacts you with contacts that you provided in "Profile" page. After doing this, click "Pay" button.
+        This will not send money directly to seller, but will be held util order is completed. After receiving product
+        click I have received this product" button, otherwise after 60 days, money will automatically be transfered to
+        seller. In case if
+        somethings went wrong, write an email to admin@mrkt.com</p>
+    </div>
+  </div>
+  <th:block th:if="${ordersBuy.isEmpty()}">
+    <div>
+      <div class="alert alert-danger text-center">No such orders</div>
+    </div>
+  </th:block>
+  <th:block th:unless="${ordersBuy.isEmpty()}">
+    <th:block th:each="order : ${ordersBuy}">
+
+      <div class="card flex-md-row mb-4 box-shadow h-md-250">
+        <div class=" card-body d-flex flex-column align-items-start col-0">
+          <th:block th:switch="${order.getStatus().name()}">
+            <th:block th:case="OPEN">
+              <strong class="d-inline-block mb-2 text-danger">Open</strong>
+            </th:block>
+            <th:block th:case="MONEY_SENT">
+              <strong class="d-inline-block mb-2 text-warning">Buyer sent money</strong>
+            </th:block>
+            <th:block th:case="SHIPPED">
+              <strong class="d-inline-block mb-2 text-success">Product delivered, waiting for your confirmation</strong>
+            </th:block>
+          </th:block>
+          <h3 class="mb-0"><a class="text-dark" th:text="${order.getProduct().getName()}"
+                              th:href="'/product/' + ${order.getProduct().getId()}">Product</a></h3>
+          <div class="mb-1 text-muted">Seller: <span th:text="${order.getSeller().getUsername()}">Shop</span></div>
+          <div class="mb-1 text-muted"
+               th:text="${order.getPrice().toString()} + ' BTC | ' + ${order.getProduct().getCity().getName()}">0.5 BTC |
+            Moscow
+          </div>
+          <div class="mb-1 text-muted">Order start date: <span th:text="${order.getDateStart()}">11 Nov</span></div>
+        </div>
+        <div class="col-md-3 text-center">
+          <th:block th:switch="${order.getStatus().name()}">
+            <th:block th:case="OPEN">
+              <form action="/orders/send" method="post">
+                <input type="hidden" name="id" th:value="${order.getId()}"/>
+                <input type="submit" class="btn btn-primary my-4" th:value="'Send ' + ${order.getProduct().getPrice()}"
+                       value="Send 5 BTC"/>
+              </form>
+            </th:block>
+            <th:block th:case="MONEY_SENT">
+              <input type="button" class="btn my-4" disabled value="Wait until is product delivered"/>
+            </th:block>
+            <th:block th:case="SHIPPED">
+              <form action="/orders/complete" method="post">
+                <input type="hidden" name="id" th:value="${order.getId()}"/>
+                <input type="submit" class="btn btn-primary my-4" value="I've received product"/>
+              </form>
+            </th:block>
+          </th:block>
+          <form action="/orders/cancel" method="post">
+            <input type="hidden" name="id" th:value="${order.getId()}"/>
+            <input type="submit" class="btn btn-danger my-4" value="Cancel"/>
+          </form>
+        </div>
+      </div>
+    </th:block>
+  </th:block>
+</div>
+<!-- /.container -->
+
+<div th:include="fragments/footer :: footer"></div>
+</body>
+</html>

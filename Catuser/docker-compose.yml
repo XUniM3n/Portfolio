@@ -1,0 +1,190 @@
+version: '3'
+
+services:
+  rabbitmq:
+    build:
+      context: ./RabbitMQ
+      dockerfile: Dockerfile
+    image: cats/rabbitmq
+    networks:
+    - catnet
+    ports:
+    - 5672:5672
+    - 15672:15672
+    volumes:
+    - rabbitmq-volume:/var/lib/rabbitmq:rw
+
+  postgres:
+    build:
+      context: ./PostgreSQL
+      dockerfile: Dockerfile
+    image: cats/postgresql
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_DB=catuser
+    networks:
+    - catnet
+    ports:
+    - 5432:5432
+    volumes:
+    - postgresql-volume:/var/lib/postgresql/data:rw
+
+  eureka:
+    build:
+      context: ./ServiceRegistry
+      dockerfile: Dockerfile
+    image: cats/eureka
+    environment:
+    - PORT=8761
+    networks:
+    - catnet
+    ports:
+    - 8761:8761
+
+  redis:
+    build:
+      context: ./Redis
+      dockerfile: Dockerfile
+    image: cats/redis
+    command: redis-server --requirepass foobared
+    networks:
+    - catnet
+    ports:
+    - 6379:6379
+
+  zuul:
+    build:
+      context: ./ZuulService
+      dockerfile: Dockerfile
+    image: cats/zuul
+    links:
+    - eureka
+    - redis
+    environment:
+    - PORT=9999
+    - REDISHOST=redis
+    - REDISPORT=6379
+    - REDISPWD=foobared
+    - EUREKAHOST=eureka
+    networks:
+    - catnet
+    ports:
+    - 9999:9999
+
+  auth:
+    build:
+      context: ./AuthService
+      dockerfile: Dockerfile
+    image: cats/auth-service
+    networks:
+    - catnet
+    environment:
+    - PORT=6900
+    - DBHOST=postgres
+    - DBPASSWORD=postgres
+    - DBUSER=postgres
+    - DBDATABASE=catuser
+    - DBPORT=5432
+    - REDISHOST=redis
+    - REDISPORT=6379
+    - REDISPWD=foobared
+    - EUREKAHOST=eureka
+    - JWTPASSWORD=password
+    ports:
+    - 6900:6900
+
+  imagesserver:
+    build:
+      context: ./ImageServer
+      dockerfile: Dockerfile
+    image: cats/image-server
+    networks:
+    - catnet
+    environment:
+    - PORT=6832
+    - IMAGESERVERHOST=imagesserver
+    - IMAGESERVERPORT=6832
+    - EUREKAHOST=eureka
+    - CAT_PATH=/opt/serverimage/
+    ports:
+    - 6832:6832
+    volumes:
+    - imagesserver-volume:/opt/serverimage/
+
+  catsservice:
+    build:
+      context: ./CatsService
+      dockerfile: Dockerfile
+    image: cats/cat-service
+    links:
+    - rabbitmq
+    networks:
+    - catnet
+    environment:
+    - PORT=6852
+    - RQHOST=rabbitmq
+    - RQUSER=api-user
+    - RQPASSWORD=qwerty008
+    - IMAGESERVERHOST=imagesserver
+    - IMAGESERVERPORT=6832
+    - EUREKAHOST=eureka
+    - CAT_PATH=/opt/catimage/
+    volumes:
+    - images-volume:/opt/catimage/
+
+  usersservice:
+    build:
+      context: ./UsersService
+      dockerfile: Dockerfile
+    image: cats/user-service
+    links:
+    - rabbitmq
+    - postgres
+    networks:
+    - catnet
+    environment:
+    - PORT=6700
+    - DBHOST=postgres
+    - DBPASSWORD=postgres
+    - DBUSER=postgres
+    - DBDATABASE=catuser
+    - DBPORT=5432
+    - RQHOST=rabbitmq
+    - RQUSER=api-user
+    - RQPASSWORD=qwerty008
+    - EUREKAHOST=eureka
+
+  uiserver:
+    build:
+      context: ./Front
+      dockerfile: Dockerfile
+    image: cats/frontend
+    links:
+    - rabbitmq
+    environment:
+    - PORT=80
+    - RQHOST=rabbitmq
+    - RQUSER=api-user
+    - RQPASSWORD=qwerty008
+    - GATEWAYHOST=zuul
+    - GATEWAYPORT=9999
+    - CAT_PATH=/opt/catimage/
+    - IP_ADDRESS=192.168.56.101
+    networks:
+    - catnet
+    ports:
+    - 80:80
+    volumes:
+    - images-volume:/opt/catimage/
+
+
+volumes:
+  postgresql-volume: {}
+  rabbitmq-volume: {}
+  images-volume: {}
+  imagesserver-volume: {}
+  logs: {}
+
+networks:
+  catnet:

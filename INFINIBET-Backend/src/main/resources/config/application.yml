@@ -1,0 +1,25 @@
+## App Properties
+app:
+  security:
+    jwtSecret:
+#    jwtSecret: %C*F-JaNdRgUkXp2s5v8y/A?D(G+KbPeShVmYq3t6w9z$C&E)H@McQfTjWnZr4u7
+    jwtBase64Secret: JUMqRi1KYU5kUmdVa1hwMnM1djh5L0E/RChHK0tiUGVTaFZtWXEzdDZ3OXokQyZFKUhATWNRZlRqV25acjR1Nw==
+    jwtExpirationInMs: 3600000
+    jwtExpirationInMsForRememberMe: 604800000
+
+server:
+  port: 16000
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: infinibet_user
+    password: qwerty
+    url: jdbc:postgresql://localhost:5432/infinibet_db
+  jpa:
+    hibernate.ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>All goods | MRKS</title>
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
+</head>
+<body>
+<div th:include="fragments/header :: navbar"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+      <h1 class="my-4">City</h1>
+      <div class="list-group">
+        <a href="/" class="list-group-item">All</a>
+        <th:block th:each="city : ${cities}">
+          <a th:href="'/?city=' + ${city.getId()}" th:text="${city.getName()}"
+             class="list-group-item">Moscow</a>
+
+        </th:block>
+      </div>
+    </div>
+    <!-- /.col-lg-3 -->
+    <div class="col-lg-9 my-4">
+      <div class="row">
+        <th:block th:if="${user != null}">
+          <a class="btn btn-outline-primary btn-block mb-2" th:href="@{/product/add}">Add</a>
+        </th:block>
+        <th:block th:each="product : ${products}">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+              <th:block th:if="${product.getImage() != null}">
+                <a th:href="@{'/product/' + ${product.getId()}}">
+                  <img class="card-img-top" src="/img/noimage.jpg" th:src="'/images/' + ${product.getImage()}" alt="">
+                </a>
+              </th:block>
+              <div class="card-body">
+                <h4 class="card-title"><a th:href="@{'/product/' + ${product.getId()}}"
+                                          th:text="${product.getName()}">Product
+                  name</a></h4>
+                <h6 th:text="${product.getPrice().toString()} + ' BTC | ' + ${product.getCity().getName()}">
+                  0.00003 BTC | Moscow</h6>
+                <h6 class="text-muted"><a th:href="@{'/user/' + ${product.getSeller().getId()}}"
+                                          th:text="${product.getSeller().getUsername()}">ShopName</a></h6>
+                <p class="card-text" th:text="${product.getDescription()}">Description</p>
+              </div>
+              <!--            <div class="card-footer"> <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> </div>-->
+            </div>
+          </div>
+        </th:block>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.container -->
+
+</body>
+</html>

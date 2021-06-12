@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <script src="js/vendor/jquery.min.js"></script>
+  <link href="css/vendor/bootstrap.min.css" rel="stylesheet">
+  <link href="css/vendor/dataTables.bootstrap4.css" rel="stylesheet">
+  <title>Manage money</title>
+</head>
+
+<body id="page-top">
+<div th:include="fragments/header :: navbar"></div>
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="container">
+      <div class="row my-1">
+        <div class="col-xl-12 col-sm-12 mb-12">
+          <div class="card text-white bg-info">
+            <div class="card-body text-center">
+              <div> Your address: </div>
+              <span class="mark text-dark" th:text="${user.getWallet().getAddress()}">35u8aAPK4jJ5N8wpWJ5gutAyyeHtKX5i13</span>
+              <div class="mt-2"> Your balance: </div>
+              <span class="mark text-dark" th:text="${user.getBalance().toString()} + ' BTC'">0.5 BTC</span> </div>
+          </div>
+        </div>
+      </div>
+      <form th:action="@{/money/send}" method="post">
+        <div class="row my-1 card">
+          <div class="col-xl-12 col-sm-12 mb-12">
+            <div class="card text-white bg-primary">
+              <div class="card-header">Withdraw money</div>
+              <div class="card-body text-center">
+                <div>
+                  <label for="inputAddress">Address</label>
+                  <input id="inputAddress" minlength="64" size="64" type="text" name="address"/>
+                </div>
+                <div>
+                  <label for="inputAmount">Amount</label>
+                  <input id="inputAmount" size="18" type="text" name="amount"/>
+                </div>
+              </div>
+              <input type="submit" class="btn btn-warning btn-s" value="Send"/>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- Example DataTables Card-->
+    <div class="card mt-3">
+      <div class="card-header">Transaction history </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+              <th>Sender</th>
+              <th>Receiver</th>
+              <th>Amount</th>
+              <th>Fee</th>
+              <th>Date</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+              <th>Sender</th>
+              <th>Receiver</th>
+              <th>Amount</th>
+              <th>Fee</th>
+              <th>Date</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            <th:block th:each="transaction : ${transactions}">
+              <tr>
+                <td th:text="${transaction.getWalletFrom().getAddress()}"> 15u8aAPK4jJ5N8wpWJ5gutAyyeHtKX5i18 </td>
+                <td th:text="${transaction.getWalletTo().getAddress()}"> 35u8aAPK4jJ5N8wpWJ5gutAyyeHtKX5i13 </td>
+                <td th:text="${transaction.getAmount().toString()}">0.4 BTC</td>
+                <th:block th:if="${transaction.getFee()} != null">
+                  <td th:text="${transaction.getFee().toString()}">0.0001 BTC</td>
+                </th:block>
+                <td th:unless="${transaction.getFee()} != null">N/A</td>
+                <td th:text="${transaction.getDate().toLocaleString()}">20/01/2018</td>
+              </tr>
+            </th:block>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    </div>
+  </div>
+  <!-- /.container-fluid-->
+  <!-- Bootstrap core JavaScript-->
+  <script src="/js/vendor/bootstrap.bundle.min.js"></script>
+  <!-- Page level plugin JavaScript-->
+  <script src="/js/vendor/jquery.dataTables.js"></script>
+  <script src="/js/vendor/dataTables.bootstrap4.js"></script>
+
+  <!-- Custom scripts for this page-->
+  <script src="/js/vendor/sb-admin-datatables.min.js"></script>
+</div>
+</body>
+</html>

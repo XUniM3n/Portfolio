@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title th:text="${product.getName()}">Product title</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/product_full.css">
+  <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
+  <script>
+      function sendFile(file) {
+          var formData = new FormData();
+          formData.append("image", file);
+
+          var xhr = new XMLHttpRequest();
+
+          xhr.open("POST", "/images", true);
+          xhr.send(formData);
+      }
+  </script>
+</head>
+<body>
+<div th:include="fragments/header :: navbar"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+
+      <div class="mt-4">
+        <th:block th:switch="${product.getImage()}">
+          <th:block th:case="null">
+            <img class="card-img-top img-fluid mb-2" src="/img/noimage.jpg" alt="">
+          </th:block>
+          <th:block th:case="*">
+            <img class="card-img-top img-fluid mb-2" th:src="'/images/' + ${product.getImage()}" src="/img/noimage.jpg"
+                 alt="">
+          </th:block>
+        </th:block>
+        <th:block th:if="${user != null} and ${product.getSeller().getId()} == ${user.getId()}">
+          <hr class="divider">
+          <div>
+            <input type="file" id="file" name="file" placeholder="Browse image..."/>
+            <button onclick="sendFile(($('#file'))[0]['files'][0])" class="btn btn-block btn-secondary">Change image
+            </button>
+            <input type="hidden" id="file_hidden">
+            <div class="filename"></div>
+          </div>
+          <hr class="divider">
+        </th:block>
+
+        <h4><span class="text-muted">Price: </span><span
+                th:text="${product.getPrice().toString()} + ' BTC'">10 BTC</span></h4>
+        <h4>
+          <span class="text-muted">City: </span><span th:text="${product.getCity().getName()}">City</span></h4>
+        <h4>
+          <span class="text-muted">Seller: </span><span th:text="${product.getSeller().getUsername()}">Seller</span>
+        </h4>
+      </div>
+      <th:block th:if="${user != null}">
+        <th:block th:if="${product.getSeller().getId()}  == ${user.getId()} or ${user.getRole().name == 'ADMIN'}">
+          <form action="/product/remove" method="post">
+            <input type="hidden" name="id" th:value="${product.getId()}">
+            <input type="submit" class="btn btn-danger btn-block mb-2 mt-4" href="" role="button"
+                   Value="Delete"/>
+          </form>
+        </th:block>
+        <th:block th:if="${product.getSeller().getId()} != ${user.getId()}">
+          <th:block th:if="${user.getBalance().compareTo(product.getPrice()) < 0}">
+            <input type="button" class="btn my-4" disabled value="Not enough money"/>
+          </th:block>
+          <th:block th:unless="${user.getBalance().compareTo(product.getPrice()) < 0}">
+            <form action="/product/order" method="post">
+              <input type="hidden" name="id" th:value="${product.getId()}">
+              <input type="submit" class="btn btn-primary btn-block mb-2 mt-4" href="" role="button" Value="Order"/>
+            </form>
+          </th:block>
+        </th:block>
+      </th:block>
+    </div>
+    <!-- /.col-lg-3 -->
+
+    <div class="col-lg-9">
+      <div class="card mt-4">
+        <div class="card-body">
+          <h3 class="card-title" th:text="${product.getName()}">Product name</h3>
+          <p class="card-text" th:text="${product.getDescription()}">Description</p>
+        </div>
+      </div>
+      <!-- /.card -->
+    </div>
+    <!-- /.col-lg-9 -->
+  </div>
+</div>
+<!-- /.container -->
+
+<div th:include="fragments/footer :: footer"></div>
+</body>
+</html>

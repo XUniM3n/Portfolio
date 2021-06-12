@@ -1,0 +1,10 @@
+spring:
+  application.name: EurekaServer
+  devtools.livereload.port: 35730
+server.port: ${PORT:8761}
+eureka:
+  instance.hostname: ${HOSTNAME:localhost}
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  server.wait-time-in-ms-when-sync-empty: 0

@@ -1,0 +1,23 @@
+server.port: ${PORT:80}
+front.server.address: ${IP_ADDRESS:127.0.0.1}
+
+gateway.address: http://${GATEWAYHOST:127.0.0.1}:${GATEWAYPORT:9999}
+cat.download.path: ${CAT_PATH:C:\\Archive\\Shared\\Test\\}
+
+gateway.prefix: /api
+gateway.routes:
+  user.path: /user
+  auth.path: /auth
+
+spring:
+  devtools.livereload.port: 35733
+  rabbitmq:
+    username: ${RQUSER:api-user}
+    password: ${RQPASSWORD:qwerty008}
+    host: ${RQHOST:127.0.0.1}
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    cache: false

@@ -1,0 +1,21 @@
+server.port: ${PORT:6652}
+
+spring:
+  application.name: cat-service
+  devtools.livereload.port: 35732
+  rabbitmq:
+    username: ${RQUSER:api-user}
+    password: ${RQPASSWORD:qwerty008}
+    host: ${RQHOST:127.0.0.1}
+
+cat:
+  #search.url: https://api.thecatapi.com/v1/images/search
+  search.url: http://${IMAGESERVERHOST:127.0.0.1}:${IMAGESERVERPORT:6832}/v1/images/search
+  download.path: ${CAT_PATH:C:\\Archive\\Shared\\Test\\}
+
+eureka.client:
+  service-url.defaultZone: http://${EUREKAHOST:localhost}:8761/eureka
+  registerWithEureka: true
+  fetchRegistry: true
+#eureka.instance.prefer-ip-address=true
+#RabbitMQ

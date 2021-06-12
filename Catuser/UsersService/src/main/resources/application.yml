@@ -1,0 +1,30 @@
+server.port: ${PORT:6700}
+
+spring:
+  application:
+    name: users-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${DBUSER:postgres}
+    password: ${DBPASSWORD:postgres}
+    url: jdbc:postgresql://${DBHOST:127.0.0.1}:${DBPORT:5432}/${DBDATABASE:catuser}
+  devtools.livereload.port: 35735
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties.hibernate.jdbc.lob.non_contextual_creation: true
+  rabbitmq:
+    username: ${RQUSER:api-user}
+    password: ${RQPASSWORD:qwerty008}
+    host: ${RQHOST:127.0.0.1}
+
+eureka:
+  client:
+    service-url.defaultZone: http://${EUREKAHOST:localhost}:8761/eureka
+    registerWithEureka: true
+    fetchRegistry: true
+#  instance:
+#    instanceId: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+#    non-secure-port: 0
+  #instance: prefer-ip-address: true

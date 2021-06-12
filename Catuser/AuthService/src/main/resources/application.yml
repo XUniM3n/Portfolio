@@ -1,0 +1,35 @@
+server.port: 6900
+
+jwt:
+  cert.password: ${JWTPASSWORD:password}
+
+logging.level.org.hibernate: ERROR
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${DBUSER:postgres}
+    password: ${DBPASSWORD:postgres}
+    url: jdbc:postgresql://${DBHOST:127.0.0.1}:${DBPORT:5432}/${DBDATABASE:catuser}
+  devtools.livereload.port: 35731
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+#    properties.hibernate.jdbc.lob.non_contextual_creation: true
+  redis:
+    host: ${REDISHOST:127.0.0.1}
+    port: ${REDISPORT:6379}
+    password: ${REDISPWD:foobared}
+
+eureka:
+  client:
+    service-url.defaultZone: http://${EUREKAHOST:localhost}:8761/eureka
+    registerWithEureka: true
+    fetchRegistry: true
+#  instance:
+#    instanceId: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+#    non-secure-port: 0
+  #instance: prefer-ip-address: true

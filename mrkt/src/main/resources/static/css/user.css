@@ -1,0 +1,79 @@
+.user-main {
+	height: 140px;
+	widows: 1200px;
+}
+.user-avatar {
+	background-color: darkseagreen;
+	width: 100px;
+	height: 100px;
+	margin: 20px;
+	float: left;
+	outline-offset: 2px;
+	outline-width: 1px;
+	outline-style: solid;
+	outline-color: rgba(65,65,65,1.00);
+}
+.user-info {
+	margin: 20px;
+	float: left;
+}
+.user-stats {
+	margin: 20px;
+	margin-left: 100px;
+	float: left;
+}
+.user-bio {
+	margin: 20px;
+	padding: 5px;
+	background-color: rgba(229,229,229,1.00);
+}
+.user-comments {
+	width: 580px;
+	float: left;
+}
+.user-comment {
+	padding: 5px;
+	border: rgba(82,82,82,1.00) solid 1px;
+	border-radius: 2px;
+	margin: 2px;
+}
+.comment-author {
+	font-weight: bold;
+	float: left;
+}
+.comment-rate {
+	float: right;
+}
+.comment-text {
+	clear: both;
+}
+.user-products {
+	width: 580px;
+	float: right;
+}
+.user-product {
+	border: rgba(82,82,82,1.00) solid 1px;
+	border-radius: 2px;
+	margin: 2px;
+}
+.user-product-img {
+	height: 45px;
+	width: 45px;
+	margin: 5px;
+	background-color: cornflowerblue;
+	float: left;
+}
+.user-product-name{
+	float: left;
+	font-weight: bold;
+	margin-top: 15px;
+	margin-left: 15px;
+}
+.user-product-name a{
+	color: black;
+}
+.user-product::after {
+    content: "";
+    clear: both;
+    display: table;
+}

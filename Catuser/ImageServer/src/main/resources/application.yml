@@ -1,0 +1,15 @@
+server.port: ${PORT:6832}
+
+spring:
+  application.name: image-server
+  devtools.livereload.port: 35734
+
+cat:
+  download.path: ${CAT_PATH:C:\\Archive\\Shared\\Projects\\Java\\Catuser\\ImageServer\\Images\\}
+  download.url: http://${IMAGESERVERHOST:127.0.0.1}:${IMAGESERVERPORT:6832}/cat.jpg
+
+eureka.client:
+  service-url.defaultZone: http://${EUREKAHOST:localhost}:8761/eureka
+  registerWithEureka: true
+  fetchRegistry: true
+#eureka.instance.prefer-ip-address=true

@@ -1,0 +1,45 @@
+spring:
+  application.name: zuul
+  devtools.livereload.port: 35736
+  redis:
+    host: ${REDISHOST:127.0.0.1}
+    port: ${REDISPORT:6379}
+    password: ${REDISPWD:foobared}
+server.port: ${PORT:9999}
+
+zuul:
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+  prefix: /api
+  routes:
+    cat:
+      path: /cat/**
+      serviceId: CAT-SERVICE
+    user:
+      path: /user/**
+      serviceId: USERS-SERVICE
+      ribbon:
+        ConnectTimeout: 30000
+        ReadTimeout: 30000
+    auth:
+      path: /auth/**
+      serviceID: AUTH-SERVICE
+      sensitive-headers: Cookie,Set-Cookie
+      ribbon:
+        ConnectTimeout: 30000
+        ReadTimeout: 30000
+
+
+eureka.client:
+  service-url.defaultZone: http://${EUREKAHOST:localhost}:8761/eureka
+  registerWithEureka: true
+  fetchRegistry: true
+
+# Increase the Hystrix timeout to 60s (globally)
+hystrix.command.default.execution.timeout.enabled: false
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
+
+ribbon:
+  ConnectTimeout: 30000
+  ReadTimeout: 30000

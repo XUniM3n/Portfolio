@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Users</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="../static/images/icons/favicon.ico"
+          th:href="@{'/images/icons/favicon.ico'}"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/vendor/bootstrap/css/bootstrap.min.css"
+          th:href="@{'/vendor/bootstrap/css/bootstrap.min.css'}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css"
+          th:href="@{'/fonts/font-awesome-4.7.0/css/font-awesome.min.css'}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/vendor/animate/animate.css"
+          th:href="@{'/vendor/animate/animate.css'}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/vendor/css-hamburgers/hamburgers.min.css"
+          th:href="@{'/vendor/css-hamburgers/hamburgers.min.css'}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/vendor/animsition/css/animsition.min.css"
+          th:href="@{'/vendor/animsition/css/animsition.min.css'}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/vendor/select2/select2.min.css"
+          th:href="@{'/vendor/select2/select2.min.css'}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/vendor/daterangepicker/daterangepicker.css"
+          th:href="@{'/vendor/daterangepicker/daterangepicker.css'}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/css/users/util.css" th:href="@{'/css/users/util.css'}">
+    <link rel="stylesheet" type="text/css" href="../static/css/users/main.css" th:href="@{'/css/users/main.css'}">
+    <!--===============================================================================================-->
+</head>
+<body>
+
+<div class="limiter">
+    <div class="cell" data-title="Token">
+        <form action="/users/revoke" method="POST">
+            <input class="input100" type="text" id="username" name="username" placeholder="Username">
+            <input type="submit" value="Revoke token"/>
+        </form>
+    </div>
+
+    <div class="container-table100">
+        <div class="wrap-table100">
+            <div class="table">
+
+                <div class="row header">
+                    <div class="cell">
+                        Id
+                    </div>
+                    <div class="cell">
+                        Username
+                    </div>
+                    <div class="cell">
+                        Password
+                    </div>
+                    <div class="cell">
+                        Cat URL
+                    </div>
+                    <!--<div class="cell">-->
+                    <!--Token Revocation-->
+                    <!--</div>-->
+                </div>
+
+                <th:block th:each="user : ${users}">
+                    <div class="row">
+                        <div class="cell" data-title="Full Name" th:text="${user.getId()}">
+                            1
+                        </div>
+                        <div class="cell" data-title="Age" th:text="${user.getUsername()}">
+                            Username
+                        </div>
+                        <div class="cell" data-title="Job Title" th:text="${user.getPassword()}">
+                            Password
+                        </div>
+                        <div class="cell" data-title="Location" th:text="${user.getCatUrl()}">
+                            <a th:href="${user.getCatUrl()}">
+                                https://cdn2.thecatapi.com/images/80k.gif
+                            </a>
+                        </div>
+                    </div>
+                </th:block>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--===============================================================================================-->
+<script src="../static/vendor/jquery/jquery-3.2.1.min.js" th:src="@{'/vendor/jquery/jquery-3.2.1.min.js'}"></script>
+<!--===============================================================================================-->
+<script src="../static/vendor/bootstrap/js/popper.js" th:src="@{'/vendor/bootstrap/js/popper.js'}"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.min.js"
+        th:src="@{'/vendor/bootstrap/js/bootstrap.min.js'}"></script>
+<!--===============================================================================================-->
+<script src="../static/vendor/select2/select2.min.js" th:src="@{'/vendor/select2/select2.min.j'}"></script>
+<!--===============================================================================================-->
+<script src="../static/js/main.js" th:src="@{'/js/main.js'}"></script>
+
+</body>
+</html>

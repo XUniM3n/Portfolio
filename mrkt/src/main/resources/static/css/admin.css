@@ -1,0 +1,23 @@
+table, th, td {
+	border: 1px solid black;
+}
+td, th {
+	padding: 4px;
+}
+table {
+	width: 100%;
+}
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+th:last-child {
+	border: none;
+	text-align: center;
+}
+td:last-child {
+	text-align: center;
+}
+
+.button-clear {
+	float: right;
+}

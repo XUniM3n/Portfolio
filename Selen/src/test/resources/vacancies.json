@@ -1,0 +1,12 @@
+[
+  {
+    "jobTitle": "IT Executive",
+    "name": "Programmer",
+    "hiringManager": "John Smith"
+  },
+  {
+    "jobTitle": "IT Manager",
+    "name": "Manager",
+    "hiringManager": "John Smith"
+  }
+]

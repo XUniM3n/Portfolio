@@ -1,0 +1,10 @@
+{
+  "baseUrl": "https://opensource-demo.orangehrmlive.com",
+  "username": "Admin",
+  "password": "admin123",
+  "logoutPage": "/auth/logout",
+  "vacancyPage": "/index.php/recruitment/viewJobVacancy",
+  "accountsValidPath": "C:\\Archive\\Shared\\Projects\\Java\\Selen\\src\\test\\resources\\accounts-valid.json",
+  "accountsInvalidPath": "C:\\Archive\\Shared\\Projects\\Java\\Selen\\src\\test\\resources\\accounts-invalid.json",
+  "vacanciesPath": "C:\\Archive\\Shared\\Projects\\Java\\Selen\\src\\test\\resources\\vacancies.json"
+}
